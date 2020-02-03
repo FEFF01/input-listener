@@ -3,7 +3,15 @@
 > * [手势和键盘监听的测试链接](https://feff01.github.io/InputListener/dist/test.html)
 
 ```javascript
+
+    /**
+     * @description 
+     * @param {HTMLElement} 被监听的目标元素
+     * @param {Object} events 可指定任意 key 不相同的监听
+     * @param {?Object} options 同原生 addEventListener 方法的第三个参数
+     */
     new InputListener(element,{
+
         /**
          * @description 鼠标或第一个触点按下时触发
          * @param {Event}
@@ -25,7 +33,7 @@
         dragEnd:console.log.bind(console,"dragEnd"),
 
         /**
-         * @description 当存在两个或以上触点时，第一和第二个触点移动时触发
+         * @description 当存在两个或以上触点时，第一或第二个触点移动时触发
          * @param {Event} 
          * @param {Object.x} 距离上次响应移动的x轴距离
          * @param {Object.y} 距离上次响应移动的y轴距离
