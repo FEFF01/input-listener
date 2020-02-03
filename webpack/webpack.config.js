@@ -22,7 +22,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].js',
-        chunkFilename: 'js/[id].js'
+        chunkFilename: 'js/[id].js',
+        libraryTarget:"umd"
     },
     externals: {
 

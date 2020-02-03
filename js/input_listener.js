@@ -504,4 +504,5 @@ try {
     window.InputListener = InputListener;
 } catch (e) {
 }
-export default InputListener;
+module.exports=InputListener;
+//export default InputListener;

@@ -1,6 +1,9 @@
 
 import InputListener from './input_listener.js'
+//import InputListener from '../dist/js/input_listener.js'
+//const InputListener =require('../dist/js/input_listener.js');
 
+console.log(InputListener);
 /*
 document.body.addEventListener(
     "touchstart",
