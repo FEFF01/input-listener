@@ -1,7 +1,8 @@
 {
   "name": "input-listener",
-  "version": "1.0",
-  "main": "./dist/input_listener.js",
+  "version": "1.0.1",
+  "main": "dist/js/input_listener.js",
+  "private":false,
   "repository":{
     "type":"git",
     "url":"git://github.com/FEFF01/InputListener.git"
