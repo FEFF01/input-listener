@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html style="width:100%;height:100%;overflow:hidden;overflow-y: auto;touch-action:none;">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+</head>
+
+<body style="margin:0;padding:0;">
+    <div style="
+    display: flex;
+    max-height: 80vh;
+    ">
+        <span id="test_view1" style="
+        position:relative;
+        background-color: gray;
+        display:inline-block; 
+        padding:10px; 
+        -webkit-user-modify: none;
+        margin:0 10px;font-size: 0;
+        cursor: pointer;
+        ">
+            <img src="./img/a.jpg">
+        </span>
+        <label id="test_view2" style="
+        position:relative;
+        background-color: gray;
+        display:inline-flex; 
+        padding:10px;
+        flex-wrap: wrap;
+        overflow: hidden;
+        cursor: pointer;
+        ">
+            <ul id="text_view" style="
+            /*display: flex;
+            flex-direction:column-reverse;*/
+            width:200px;
+            padding: 0;
+            "></ul>
+            <session>
+                <textarea style="appearance: none;width:100%;"></textarea>
+                <p>
+                    alt|ArrowUp+a,arrowup+a|z+s|x+d|c,s,d+f,f,d_keyDown
+                </p>
+                <p>
+                    s,1,f_keyUp
+                </p>
+                <p>
+                    s,d,e_keyPress
+                </p>
+                <p>
+                    1,2,3,4,5,6_keyPress
+                </p>
+            </session>
+        </label>
+    </div>
+    <script async src="./js/test.js"></script>
+</body>
+
+</html>
