@@ -2,6 +2,10 @@
   "name": "input-listener",
   "version": "1.0",
   "main": "./dist/input_listener.js",
+  "repository":{
+    "type":"git",
+    "url":"git://github.com/FEFF01/InputListener.git"
+  },
   "scripts": {
     "build": "webpack --config webpack/webpack.config.js",
     "dev": "webpack-dev-server --inline --progress --config webpack/webpack.config.dev.js",
