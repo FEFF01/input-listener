@@ -1,5 +1,5 @@
 # InputListener
-# 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
+### 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
  
 > * [手势和键盘监听的测试链接](https://feff01.github.io/InputListener/dist/test.html)
 
