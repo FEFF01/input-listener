@@ -2,7 +2,15 @@
  
 > * [手势和键盘监听的测试链接](https://feff01.github.io/InputListener/dist/test.html)
 
+
+```
+    npm install input-listener
+```
+
 ```javascript
+
+    import InputListener from 'input-listener';
+    //const InputListener = require('input-listener');
 
     /**
      * @description 
