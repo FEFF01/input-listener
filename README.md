@@ -4,19 +4,22 @@
  
 > * [测试链接](https://feff01.github.io/InputListener/dist/test.html)
 
+
 ## 安装
 
 ```
     npm install input-listener
 ```
-
 > * 免安装可直接保存 `https://feff01.github.io/InputListener/dist/js/input_listener.js` 文件，本地 script 引入后通过 `window.InputListener` 使用
 
+
+## 应用
 
 ```javascript
 
     import InputListener from 'input-listener';
     //const InputListener = require('input-listener');
+    //const InputListener = window.InputListener;
 
     /**
      * @description 
@@ -53,6 +56,12 @@
          * @param {Object.y} 距离上次响应移动的y轴距离
          */
         dragMove2:console.log.bind(console,"dragMove2"),
+
+        /**
+         * @description 响应点击动作
+         * @param {Event} 
+         */
+        click:console.log.bind(console,"click"),
 
         /**
          * @description 响应双指缩放手势
