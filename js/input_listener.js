@@ -2,12 +2,11 @@
 
 const CURSOR_PATTERN_MAP = {
     "rotate": /^rotate$/,
-    "scale": /^scale$/,
+    "pinch": /^pinch$/,
     "dragMove2": /^dragMove2$/,
     "dragStart": /^dragStart$/,
     "dragMove": /^dragMove$/,
     "dragEnd": /^dragEnd$/,
-    "unClick": /^unClick$/,
     "click": /^click$/,
 }
 const KEY_PATTERN_MAP = {
@@ -34,7 +33,7 @@ class Base {
     static STATES = {
         IS_DRAG: 0b1,
         IS_ROTATE: 0b10,
-        IS_SCALE: 0b100,
+        IS_PINCH: 0b100,
 
         MOUSE_DOWN: "MOUSE_DOWN",
         MOUSE_MOVE: "MOUSE_MOVE",
@@ -56,9 +55,9 @@ class Base {
 
     _activated_listener = {};
     _registered_listener = {
-        rotate: null, scale: null,
+        rotate: null, pinch: null,
         dragMove: null, dragStart: null, dragEnd: null, dragMove2: null,
-        click: null, unClick: null,
+        click: null,
         keyDown: { _parts: [], _reference: 0 }, keyUp: { _reference: 0 }, keyPress: { _reference: 0 }
     };
     _bm = 0x001;
@@ -238,10 +237,10 @@ class InputListener extends Base {
                 }
             }
         }
-        this._max_points = listener.scale || listener.rotate || listener.dragMove2 ? 2 : 1;
+        this._max_points = listener.pinch || listener.rotate || listener.dragMove2 ? 2 : 1;
 
         let has_cursor = listener.dragStart || listener.dragMove || listener.dragMove2 || listener.dragEnd ||
-            listener.click || listener.scale || listener.rotate ? true : false;
+            listener.click || listener.pinch || listener.rotate ? true : false;
         this.setListener({
             [STATES.MOUSE_DOWN]: has_cursor,
             [STATES.TOUCH_START]: has_cursor,
@@ -249,16 +248,17 @@ class InputListener extends Base {
             [STATES.KEY_UP]: listener.keyDown._reference > 0 || listener.keyUp._reference > 0,
             [STATES.KEY_PRESS]: listener.keyPress._reference > 0
         });
+        return this;
     }
     _registPoint(e, t) {
         const STATES = InputListener.STATES;
         let points = this._points;
         let activated_listener = this._activated_listener;
         points.push({
-            dx: t.clientX,
-            dy: t.clientY,
-            mx: t.clientX,
-            my: t.clientY
+            dx: t.pageX,
+            dy: t.pageY,
+            mx: t.pageX,
+            my: t.pageY
         });
         this._identifiers.push(isNaN(t.identifier) ? InputListener.MOUSE_EVENT_ID : t.identifier);
 
@@ -279,10 +279,6 @@ class InputListener extends Base {
                 this._process_values.sd = Math.sqrt((points[0].mx - points[1].mx) ** 2 + (points[0].my - points[1].my) ** 2);
                 this._process_values.ra = Math.atan2(points[0].my - points[1].my, points[0].mx - points[1].mx);
                 activated_listener.click && (activated_listener.click = false);
-                if (activated_listener.unClick) {
-                    activated_listener.unClick(e, t);
-                    delete activated_listener.unClick;
-                }
                 break;
         }
     }
@@ -334,34 +330,33 @@ class InputListener extends Base {
         let listener = this._activated_listener;
         let point = this._points[index];
         if (listener.dragMove) {
-            var v2 = { x: t.clientX - point.mx, y: t.clientY - point.my };
+            var v2 = { x: t.pageX - point.mx, y: t.pageY - point.my };
             if (listener.dragMove(e, v2)) {
-                point.mx = t.clientX - v2.x;
-                point.my = t.clientY - v2.y;
+                point.mx = t.pageX - v2.x;
+                point.my = t.pageY - v2.y;
             } else {
-                point.mx = t.clientX;
-                point.my = t.clientY;
+                point.mx = t.pageX;
+                point.my = t.pageY;
             }
         }
         //如果存在点击监听，则在拖拽距离超出极限后去除监听并
         if (listener.click) {
-            if (Math.abs(t.clientX - point.dx) + Math.abs(t.clientY - point.dy) > this._mesh_value) {
+            if (Math.abs(t.pageX - point.dx) + Math.abs(t.pageY - point.dy) > this._mesh_value) {
                 listener.click = false;
-                listener.unClick && listener.unClick(e, t);
             }
         }
 
     }
-    _pinch = (e, t, index) => {
+    _move2 = (e, t, index) => {
         const STATES = InputListener.STATES;
         let listener = this._activated_listener;
         let values = this._process_values;
         let points = this._points;
         let target_point = points[index];
         let sib_point = points[index === 1 ? 0 : 1];
-        //target_point.mx = t.clientX, target_point.my = t.clientY;
-        let ox = t.clientX - target_point.mx;
-        let oy = t.clientY - target_point.my;
+        //target_point.mx = t.pageX, target_point.my = t.pageY;
+        let ox = t.pageX - target_point.mx;
+        let oy = t.pageY - target_point.my;
         if (listener.dragMove2) {
             let _v2 = { x: ox / 2, y: oy / 2 };
             if (listener.dragMove2(e, _v2)) {
@@ -372,13 +367,13 @@ class InputListener extends Base {
 
         target_point.mx = target_point.mx + ox, target_point.my = target_point.my + oy;
         let cx = (target_point.mx + sib_point.mx) / 2, cy = (target_point.my + sib_point.my) / 2;
-        if (listener.scale) {
+        if (listener.pinch) {
             let _sd = Math.sqrt((target_point.mx - sib_point.mx) ** 2 + (target_point.my - sib_point.my) ** 2);
-            if (this._process_status & STATES.IS_SCALE) {
-                listener.scale(e, -(values.sd - (values.sd = _sd)));
+            if (this._process_status & STATES.IS_PINCH) {
+                listener.pinch(e, -(values.sd - (values.sd = _sd)));
             } else if (Math.abs(_sd - values.sd) > this._mesh_value) {
-                this._process_status |= STATES.IS_SCALE;
-                listener.scale(e,
+                this._process_status |= STATES.IS_PINCH;
+                listener.pinch(e,
                     -(values.sd - (values.sd = _sd)),
                     { x: cx, y: cy }
                 );
@@ -401,7 +396,7 @@ class InputListener extends Base {
         }
     }
     cursorMove = (e) => {
-        this.eventDispenser(e, this._points.length < 2 ? this._move : this._pinch);
+        this.eventDispenser(e, this._points.length < 2 ? this._move : this._move2);
     }
     _leave = (e, t, index) => {
         this._identifiers.splice(index, 1);
@@ -482,6 +477,16 @@ class InputListener extends Base {
             listener[key] && listener[key].some(task => task(e));
         }
     }
+    on(event, callback) {
+        return this.updateListener({
+            [event]: callback
+        });
+    }
+    off(event, callback) {
+        return this.updateListener({
+            [event]: callback
+        }, true);
+    }
     registListener(events) {
         this.updateListener(events);
     }
@@ -504,5 +509,5 @@ try {
     window.InputListener = InputListener;
 } catch (e) {
 }
-module.exports=InputListener;
+module.exports = InputListener;
 //export default InputListener;

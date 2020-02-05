@@ -49,8 +49,8 @@ function init_testview(view) {
         },
         dragMove: move,
         dragMove2: move,
-        scale: (e, s, v2) => {
-            v2 && console.log("scale", v2);
+        pinch: (e, s, v2) => {
+            v2 && console.log("pinch", v2);
             scale = scale * (1 + s / (view.clientWidth * scale));
             requestRender();
         },
@@ -63,7 +63,6 @@ function init_testview(view) {
             e.preventDefault();
             console.log("click->", e);
         },
-        unClick: (e) => console.log("unClick->", e),
         "alt|ArrowUp+a,arrowup+a|z+s|x+d|c,s,d+f,f,d_keyDown": (e, p) => {
             text_view && append_textfield(`keyDown:${p}`);
             console.log("keyDown", e, p);
@@ -84,6 +83,4 @@ function init_testview(view) {
     })
     console.log(inputListener);
 }
-
-
 

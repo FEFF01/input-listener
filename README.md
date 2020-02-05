@@ -1,11 +1,17 @@
-# InputListener
-### 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
+## InputListener
+
+> * 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
  
-> * [手势和键盘监听的测试链接](https://feff01.github.io/InputListener/dist/test.html)
+> * [测试链接](https://feff01.github.io/InputListener/dist/test.html)
+
+## 安装
 
 ```
     npm install input-listener
 ```
+
+> * 免安装可直接保存 `https://feff01.github.io/InputListener/dist/js/input_listener.js` 文件，本地 script 引入后通过 `window.InputListener` 使用
+
 
 ```javascript
 
@@ -18,7 +24,7 @@
      * @param {Object} events 可指定任意 key 不相同的监听
      * @param {?Object} options 同原生 addEventListener 方法的第三个参数
      */
-    new InputListener(element,{
+    let inputListener = new InputListener(element,{
 
         /**
          * @description 鼠标或第一个触点按下时触发
@@ -55,7 +61,7 @@
          * @param {?Object.x} 首次触发缩放手势时该参数表示触发时缩放中心点x
          * @param {?Object.y}  首次触发缩放手势时该参数表示触发时缩放中心点y
          */
-        scale:console.log.bind(console,"scale"),
+        pinch:console.log.bind(console,"pinch"),
 
         /**
          * @description 响应双指旋转手势
@@ -84,5 +90,19 @@
          * @param {Event} 
          */
         "arrowup,q,w,e_keyPress":console.log.bind(console,"keyPress"),
-    })
+    });
+
+    /**
+     * @description 由于屏幕交互事件额外支持一些冒泡功能，现在一种屏幕交互事件只支持同时存在一个监听，可通过实例化多个InputListener来支持复数个相同监听
+     */
+    inputListener.off("dragStart");
+    inputListener.on("dragStart",console.log.bind(console,"dragStart"));
+
+    /**
+     * @description 键盘监听同一按键可存在多个不同监听回调方法
+     */
+    let ctrl_z_listener=console.log.bind(console,"ctrl_z_listener");
+    inputListener.on("ctrl+z_keyDown",ctrl_z_listener);
+    inputListener.off("ctrl+z_keyDown",ctrl_z_listener);
+
 ```

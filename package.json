@@ -1,6 +1,6 @@
 {
   "name": "input-listener",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/js/input_listener.js",
   "private":false,
   "repository":{
