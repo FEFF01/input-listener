@@ -10,7 +10,7 @@ let devWebpackConfig = Object.assign(config, {
     devServer: {
         open: false,
         host: "localhost",//"0.0.0.0"
-        port: 8000,
+        //port: 8000,
         clientLogLevel: 'warning',
     },
     /*module: {},*/ mode: 'development',

@@ -330,10 +330,10 @@ class InputListener extends Base {
         let listener = this._activated_listener;
         let point = this._points[index];
         if (listener.dragMove) {
-            var v2 = { x: t.pageX - point.mx, y: t.pageY - point.my };
+            var v2 = [t.pageX - point.mx, t.pageY - point.my];
             if (listener.dragMove(e, v2)) {
-                point.mx = t.pageX - v2.x;
-                point.my = t.pageY - v2.y;
+                point.mx = t.pageX - v2[0];
+                point.my = t.pageY - v2[1];
             } else {
                 point.mx = t.pageX;
                 point.my = t.pageY;
@@ -358,10 +358,10 @@ class InputListener extends Base {
         let ox = t.pageX - target_point.mx;
         let oy = t.pageY - target_point.my;
         if (listener.dragMove2) {
-            let _v2 = { x: ox / 2, y: oy / 2 };
+            let _v2 = [ox / 2, oy / 2];
             if (listener.dragMove2(e, _v2)) {
-                ox -= _v2.x * 2;
-                oy -= _v2.y * 2;
+                ox -= _v2[0] * 2;
+                oy -= _v2[1] * 2;
             }
         }
 
@@ -375,7 +375,7 @@ class InputListener extends Base {
                 this._process_status |= STATES.IS_PINCH;
                 listener.pinch(e,
                     -(values.sd - (values.sd = _sd)),
-                    { x: cx, y: cy }
+                    [cx, cy]
                 );
             }
         }
@@ -390,7 +390,7 @@ class InputListener extends Base {
                 values.ra = _ra;
             } else if (Math.abs(_ra - values.ra) > Math.PI * 0.01) {
                 this._process_status |= STATES.IS_ROTATE;
-                listener.rotate(e, _ra - values.ra, { x: cx, y: cy });
+                listener.rotate(e, _ra - values.ra, [cx, cy]);
                 values.ra = _ra;
             }
         }

@@ -19,8 +19,8 @@ function init_testview(view) {
     let _af;
     let text_view = view.querySelector("#text_view");
     function move(e, v2) {
-        tx += v2.x;
-        ty += v2.y;
+        tx += v2[0];
+        ty += v2[1];
         requestRender();
     }
     function requestRender() {
@@ -49,13 +49,13 @@ function init_testview(view) {
         },
         dragMove: move,
         dragMove2: move,
-        pinch: (e, s, v2) => {
-            v2 && console.log("pinch", v2);
+        pinch: (e, s, center_point) => {
+            center_point && console.log("pinch", center_point);
             scale = scale * (1 + s / (view.clientWidth * scale));
             requestRender();
         },
-        rotate: (e, r, v2) => {
-            v2 && console.log("rotate", v2);
+        rotate: (e, r, center_point) => {
+            center_point && console.log("rotate", center_point);
             rotate += r * 180 / Math.PI;
             requestRender();
         },

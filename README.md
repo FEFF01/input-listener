@@ -1,7 +1,7 @@
 ## InputListener
 
 > * 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
- 
+> * 兼容同时存在鼠标和触屏的设备，跟踪交互必须的每个触点（避免响应无关触点事件导致不必要的性能消耗，多触点过度时无抖动）
 > * [测试链接](https://feff01.github.io/InputListener/dist/test.html)
 
 
@@ -38,8 +38,8 @@
         /**
          * @description 鼠标或第一个触点（只存在一个触点时）按下并拖动时触发
          * @param {Event} 
-         * @param {Object.x} 距离上次响应移动的x轴距离
-         * @param {Object.y} 距离上次响应移动的y轴距离
+         * @param {Array[0]} 距离上次响应移动的x轴距离
+         * @param {Array[1]} 距离上次响应移动的y轴距离
          */
         dragMove:console.log.bind(console,"dragMove"),
 
@@ -52,8 +52,8 @@
         /**
          * @description 当存在两个或以上触点时，第一或第二个触点移动时触发
          * @param {Event} 
-         * @param {Object.x} 距离上次响应移动的x轴距离
-         * @param {Object.y} 距离上次响应移动的y轴距离
+         * @param {Array[0]} 距离上次响应移动的x轴距离
+         * @param {Array[1]} 距离上次响应移动的y轴距离
          */
         dragMove2:console.log.bind(console,"dragMove2"),
 
@@ -67,8 +67,8 @@
          * @description 响应双指缩放手势
          * @param {Event} 
          * @param {number} 缩放距离（px）
-         * @param {?Object.x} 首次触发缩放手势时该参数表示触发时缩放中心点x
-         * @param {?Object.y}  首次触发缩放手势时该参数表示触发时缩放中心点y
+         * @param {?Array[0]} 缩放中心点x（一次缩放手势过程中的第一次回调才存在该参数）
+         * @param {?Array[1]} 缩放中心点y（一次缩放手势过程中的第一次回调才存在该参数）
          */
         pinch:console.log.bind(console,"pinch"),
 
@@ -76,8 +76,8 @@
          * @description 响应双指旋转手势
          * @param {Event} 
          * @param {number} 旋转弧度
-         * @param {?Object.x} 首次触发旋转手势时该参数表示触发时旋转中心点x
-         * @param {?Object.y}  首次触发旋转手势时该参数表示触发时旋转中心点y
+         * @param {?Array[0]} 旋转中心点x（一次旋转手势过程中的第一次回调才存在该参数）
+         * @param {?Array[1]} 旋转中心点y（一次旋转手势过程中的第一次回调才存在该参数）
          */
         rotate:console.log.bind(console,"rotate"),
 
@@ -102,7 +102,7 @@
     });
 
     /**
-     * @description 由于屏幕交互事件额外支持一些冒泡功能，现在一种屏幕交互事件只支持同时存在一个监听，可通过实例化多个InputListener来支持复数个相同监听
+     * @description 由于屏幕交互事件额外支持一些冒泡功能（用于做更细致的交互定制），现在一种屏幕交互事件只支持同时存在一个监听，可通过实例化多个InputListener来支持复数个相同监听
      */
     inputListener.off("dragStart");
     inputListener.on("dragStart",console.log.bind(console,"dragStart"));
