@@ -1,8 +1,8 @@
-## InputListener
+## input-listener
 
 > * 鼠标触屏点击、拖拽、缩放、旋转手势监听，和任意普通按键与组合键监听
 > * 兼容同时存在鼠标和触屏的设备，跟踪交互必须的每个触点（避免响应无关触点事件导致不必要的性能消耗，多触点过度时无抖动）
-> * [测试链接](https://feff01.github.io/InputListener/dist/test.html)
+> * [测试链接](https://feff01.github.io/input-listener/dist/test.html)
 
 
 ## 安装

@@ -219,7 +219,25 @@ class InputListener extends Base {
         super(target, options);
         this.registListener(events);
     }
-
+    on(event, callback) {
+        return this.updateListener({
+            [event]: callback
+        });
+    }
+    off(event, callback) {
+        return this.updateListener({
+            [event]: callback
+        }, true);
+    }
+    activate() {
+        this.updateListener();
+    }
+    disable() {
+        this.setListener(Object.keys(this._listener_status).reduce((res, key) => {
+            this._listener_status[key] && (res[key] = false);
+            return res;
+        }, {}));
+    }
     updateListener(events, is_remove) {
         let listener = this._registered_listener;
         const STATES = InputListener.STATES;
@@ -477,16 +495,6 @@ class InputListener extends Base {
             listener[key] && listener[key].some(task => task(e));
         }
     }
-    on(event, callback) {
-        return this.updateListener({
-            [event]: callback
-        });
-    }
-    off(event, callback) {
-        return this.updateListener({
-            [event]: callback
-        }, true);
-    }
     registListener(events) {
         this.updateListener(events);
     }
@@ -496,12 +504,6 @@ class InputListener extends Base {
         } else {
             //...
         }
-    }
-    stopListener() {
-        this.setListener(Object.keys(this._listener_status).reduce((res, key) => {
-            this._listener_status[key] && (res[key] = false);
-            return res;
-        }, {}));
     }
 }
 
