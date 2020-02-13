@@ -10,7 +10,7 @@
 ```
     npm install input-listener
 ```
-> * 免安装可直接保存 `https://feff01.github.io/InputListener/dist/js/input_listener.js` 文件，本地 script 引入后通过 `window.InputListener` 使用
+> * 免安装可直接保存 `https://feff01.github.io/input-listener/dist/js/input_listener.js` 文件，本地 script 引入后通过 `window.InputListener` 使用
 
 
 ## 应用
