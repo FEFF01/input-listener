@@ -1,5 +1,6 @@
 
-import InputListener from './input_listener.js'
+const InputListener =require('./input_listener.js');
+//import InputListener from './input_listener.js'
 //import InputListener from '../dist/js/input_listener.js'
 //const InputListener =require('../dist/js/input_listener.js');
 
