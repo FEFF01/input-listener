@@ -1,12 +1,19 @@
 {
   "name": "input-listener",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "main": "dist/js/input_listener.js",
-  "private":false,
-  "keywords":["multi-touch","composite-key","drag","listener","events"],
-  "repository":{
-    "type":"git",
-    "url":"git://github.com/FEFF01/input-listener.git"
+  "private": false,
+  "license": "MIT",
+  "keywords": [
+    "multi-touch",
+    "composite-key",
+    "drag",
+    "listener",
+    "events"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/FEFF01/input-listener.git"
   },
   "scripts": {
     "build": "webpack --config webpack/webpack.config.js",
