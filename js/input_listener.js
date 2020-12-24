@@ -175,7 +175,7 @@ class Base {
             if (options === true) {
                 _listener_options = true;
             } else {
-                _listener_options = ["capture", "passive", "passive"].forEach(key => {
+                ["capture", "passive", "passive"].forEach(key => {
                     if (options[key] !== undefined) {
                         (_listener_options || (_listener_options = {}))[key] = options[key];
                     }
